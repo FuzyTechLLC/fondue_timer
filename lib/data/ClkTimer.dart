@@ -15,7 +15,6 @@ class ClkTimer {
     } else {
       _startTime = DateTime.now().subtract(_elapsedTime);
     }
-    print(_elapsedTime.toString());
 
     _targetTime = _startTime!.add(timeDur);
     _paused = false;
@@ -23,7 +22,6 @@ class ClkTimer {
 
   void pause() {
     _elapsedTime = DateTime.now().difference(_startTime!);
-    print(_elapsedTime.toString());
 
     _paused = true;
   }
