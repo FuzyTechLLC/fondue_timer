@@ -1,57 +1,56 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
-import '../data/ClkTimer.dart';
+import 'package:fondue_timer/data/ClkTimer.dart';
+import 'package:fondue_timer/data/TimerData.dart';
 
 class TimerBlock extends StatefulWidget {
-  int? time;
-  String? name;
-  Color? color;
+  final TimerData data;
   @override
   _TimerBlockState createState() => _TimerBlockState();
 
-  TimerBlock({Key? key, this.name, this.time, this.color}) : super(key: key);
+  TimerBlock.fromTimerData(this.data);
 }
 
 class _TimerBlockState extends State<TimerBlock> {
+  late Timer tmpTimer;
   void initState() {
     super.initState();
-    Timer.periodic(
+    tmpTimer = Timer.periodic(
         Duration(milliseconds: 800), (Timer timer) => setState(() {}));
-    clkTimer = ClkTimer(timeDur: Duration(seconds: widget.time!));
-  }
 
-  ClkTimer? clkTimer;
+  }
+  @override
+  void dispose() {
+    tmpTimer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        height: 75,
-        width: 100,
-        decoration: ShapeDecoration(
-            shape: Border.all(color: Colors.transparent),),
-        child: Material(
-          color: widget.color,
-          child: InkWell(
-            onTap: () {
-              if (clkTimer!.remainingTime < Duration.zero) {
-                clkTimer!.pause();
-                clkTimer!.reset();
-              } else {
-                clkTimer!.start();
-              }
-              setState(() {});
-            },
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(clkTimer!.paused
-                    ? widget.name!
-                    : clkTimer!.remainingTime.inSeconds.toString()),
-              ),
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      height: 75,
+      width: 100,
+      decoration: ShapeDecoration(
+          shape: Border.all(color: Colors.transparent),),
+      child: Material(
+        color: widget.data.color,
+        child: InkWell(
+          onTap: () {
+            if (widget.data.time.remainingTime < Duration.zero) {
+              widget.data.time.pause();
+              widget.data.time.reset();
+            } else {
+              widget.data.time.start();
+            }
+            setState(() {});
+          },
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(widget.data.time.paused
+                  ? widget.data.name
+                  : widget.data.time.remainingTime.inSeconds.toString()),
             ),
           ),
         ),
