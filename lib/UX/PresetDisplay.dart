@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fondue_timer/UX/FuzColors.dart';
-import 'package:fondue_timer/data/TimerData.dart';
+import 'package:fondue_timer/data/PresetData.dart';
 
 class PresetDisplay extends StatelessWidget {
-  final TimerData timerData;
+  final PresetData timerData;
   final Function()? onDoubleTap;
   final Function()? onTap;
   final Function()? onLongPress;

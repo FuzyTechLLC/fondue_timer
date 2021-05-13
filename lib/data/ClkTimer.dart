@@ -49,6 +49,7 @@ class ClkTimer {
   Duration get remainingTime => _timeDur - elapsedTime;
 
   Duration get timeDur => _timeDur;
+  Duration get duration => _timeDur;
 
   set duration(Duration d) {
     reset();
@@ -56,7 +57,7 @@ class ClkTimer {
     reset();
   }
 
-  
+
 
   bool get paused => _paused;
 }

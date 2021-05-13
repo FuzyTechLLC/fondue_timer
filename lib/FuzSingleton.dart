@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fondue_timer/data/PresetData.dart';
 import 'package:fondue_timer/data/TimerData.dart';
 
 class FuzSingleton {
@@ -6,5 +7,5 @@ class FuzSingleton {
   factory FuzSingleton() => _instance;
   FuzSingleton._internal();
 
-  List<TimerData> presets = [];
+  List<PresetData> presets = [];
 }

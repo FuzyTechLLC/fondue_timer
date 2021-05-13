@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fondue_timer/FuzSingleton.dart';
 import 'package:fondue_timer/UX/CreateTimerDialog.dart';
 import 'package:fondue_timer/UX/PresetDisplay.dart';
+import 'package:fondue_timer/data/PresetData.dart';
 
 class ViewPresetsDialog extends StatefulWidget {
   @override
@@ -34,7 +35,11 @@ class _ViewPresetsDialogState extends State<ViewPresetsDialog> {
                   builder: (context) => CreateTimerDialog(
                         title: "New Preset",
                       )).then((value) {
-                if (value != null) FuzSingleton().presets.add(value);
+                if (value != null) {
+
+                  FuzSingleton().presets.add(PresetData(value.name, value.time.duration, value.color));
+                }
+                ;
               });
             },
             child: Text("ADD")),
