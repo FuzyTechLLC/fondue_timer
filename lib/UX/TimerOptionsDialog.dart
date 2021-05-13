@@ -1,40 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:fondue_timer/FuzSingleton.dart';
 import 'package:fondue_timer/UX/ColorChangeButton.dart';
-import 'package:fondue_timer/UX/TimeTextField.dart';
+import 'package:fondue_timer/UX/PresetDisplay.dart';
 import 'package:fondue_timer/data/ClkTimer.dart';
 import 'package:fondue_timer/data/TimerData.dart';
 
-class CreateTimerDialog extends StatefulWidget {
-  final String title;
+import 'TimeTextField.dart';
 
-  const CreateTimerDialog({Key? key, this.title="New Timer"}) : super(key: key);
+class TimerOptionDialog extends StatefulWidget {
+  final TimerData timerData;
 
+  const TimerOptionDialog(
+    this.timerData, {
+    Key? key,
+  }) : super(key: key);
   @override
-  _CreateTimerDialogState createState() => _CreateTimerDialogState();
+  _TimerOptionDialogState createState() => _TimerOptionDialogState();
 }
 
-class _CreateTimerDialogState extends State<CreateTimerDialog> {
+class _TimerOptionDialogState extends State<TimerOptionDialog> {
   late Color chosenColor;
   late TextEditingController secondController;
   late TextEditingController minuteController;
   late TextEditingController nameController;
 
+
   @override
   void initState() {
     super.initState();
-    chosenColor = Colors.black;
-    secondController = TextEditingController();
-    minuteController = TextEditingController();
-    nameController = TextEditingController();
+    chosenColor = widget.timerData.color;
+    secondController = TextEditingController(text: (widget.timerData.time.timeDur.inSeconds%60).toString());
+    minuteController = TextEditingController(text: widget.timerData.time.timeDur.inMinutes.toString());
+    nameController = TextEditingController(text: widget.timerData.name);
   }
 
   @override
   Widget build(BuildContext context) {
+    List<PresetDisplay> presetViews = [];
+
+    for (int i = 0; i < FuzSingleton().presets.length; i++) {
+      presetViews.add(PresetDisplay(
+        FuzSingleton().presets[i],
+        onTap: () => Navigator.pop(context, FuzSingleton().presets[i]),
+      ));
+    }
     return SimpleDialog(
       backgroundColor: Colors.black,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4), side: BorderSide(color: Colors.white, width: 3)),
-      title: Text(widget.title),
+      title: Text("Options"),
       children: [
+
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
           child: Row(
@@ -80,6 +95,10 @@ class _CreateTimerDialogState extends State<CreateTimerDialog> {
             ),
             TimeTextField(secondController),
           ],
+        ),
+        TextButton(
+          child: Text("DELETE"),
+          onPressed: () =>Navigator.pop(context, "DELETE"),
         ),
         ButtonBar(
           children: [

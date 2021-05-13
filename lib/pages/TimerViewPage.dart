@@ -18,7 +18,7 @@ class _TimerViewPageState extends State<TimerViewPage> {
   @override
   void initState() {
     super.initState();
-    dataList = [TimerData(name: 'steak', color: Colors.blue, time: ClkTimer(timeDur: Duration(seconds: 15)))];
+    dataList = [TimerData(name: 'steak', color: Colors.blue, time: ClkTimer(duration: Duration(seconds: 15)))];
   }
 
   @override
@@ -29,7 +29,7 @@ class _TimerViewPageState extends State<TimerViewPage> {
             maxCrossAxisExtent: 150.0,
           ),
           itemCount: dataList.length,
-          itemBuilder: (BuildContext context, int index) => TimerBlock.fromTimerData(dataList[index])),
+          itemBuilder: (BuildContext context, int index) => TimerBlock.fromTimerData(dataList[index], ()=>setState(()=>dataList.removeAt(index)))),
       floatingActionButton: _optionsFAB(),
     );
   }

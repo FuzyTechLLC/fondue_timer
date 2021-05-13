@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fondue_timer/UX/TimerOptionsDialog.dart';
 import 'package:fondue_timer/data/TimerData.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TimerBlock extends StatefulWidget {
   final TimerData data;
+  final Function() deleteThis;
   @override
   _TimerBlockState createState() => _TimerBlockState();
 
-  TimerBlock.fromTimerData(this.data);
+  TimerBlock.fromTimerData(this.data, this.deleteThis);
 }
 
 class _TimerBlockState extends State<TimerBlock> {
@@ -35,7 +37,7 @@ class _TimerBlockState extends State<TimerBlock> {
               aspectRatio: 1,
               child: Container(
                 padding: EdgeInsets.all(3),
-                decoration: ShapeDecoration(color: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+                decoration: ShapeDecoration(color: widget.data.color == Colors.black ? Colors.white : widget.data.color, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                 child: Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
@@ -52,13 +54,25 @@ class _TimerBlockState extends State<TimerBlock> {
                         }
                         setState(() {});
                       },
+                      onDoubleTap: () => showDialog(context: context, builder: (context) => TimerOptionDialog(widget.data)).then((value) {
+                        if (value != null) {
+                          if (value == "DELETE") {
+                            widget.deleteThis();
+                          } else if (value.runtimeType == TimerData) {
+                            widget.data.color = value.color;
+                            widget.data.time = value.time;
+                            widget.data.name = value.name;
+                            setState(() {});
+                          }
+                        }
+                      }),
                       onLongPress: () => setState(() => widget.data.time.reset()),
                       child: FittedBox(
                         alignment: Alignment.centerLeft,
                         fit: BoxFit.fitWidth,
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: Text((widget.data.remainingTimeString), style: GoogleFonts.roboto()),
+                          child: Text((widget.data.remainingTimeString), style: GoogleFonts.roboto(color: widget.data.color == Colors.white ? Colors.black : Colors.white)),
                         ),
                       ),
                     ),

@@ -1,13 +1,14 @@
 class ClkTimer {
-  Duration timeDur;
+  Duration _timeDur;
   Duration _elapsedTime;
   DateTime? _startTime;
   DateTime? _targetTime;
   bool _paused;
 
-  ClkTimer({this.timeDur = Duration.zero})
+  ClkTimer({Duration duration = Duration.zero})
       : _elapsedTime = Duration.zero,
-        _paused = true;
+        _paused = true,
+        _timeDur = duration;
 
   void start() {
     if (_startTime == null) {
@@ -16,7 +17,7 @@ class ClkTimer {
       _startTime = DateTime.now().subtract(_elapsedTime);
     }
 
-    _targetTime = _startTime!.add(timeDur);
+    _targetTime = _startTime!.add(_timeDur);
     _paused = false;
   }
 
@@ -45,7 +46,17 @@ class ClkTimer {
     return _elapsedTime;
   }
 
-  Duration get remainingTime => timeDur - elapsedTime;
+  Duration get remainingTime => _timeDur - elapsedTime;
+
+  Duration get timeDur => _timeDur;
+
+  set duration(Duration d) {
+    reset();
+    _timeDur = d;
+    reset();
+  }
+
+  
 
   bool get paused => _paused;
 }
