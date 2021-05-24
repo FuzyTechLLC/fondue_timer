@@ -36,10 +36,9 @@ class _ViewPresetsDialogState extends State<ViewPresetsDialog> {
                         title: "New Preset",
                       )).then((value) {
                 if (value != null) {
-
                   FuzSingleton().presets.add(PresetData(value.name, value.time.duration, value.color));
+                  FuzSingleton().savePresets();
                 }
-                ;
               });
             },
             child: Text("ADD")),

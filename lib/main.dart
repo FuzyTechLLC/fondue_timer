@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fondue_timer/FuzSingleton.dart';
 import 'package:fondue_timer/UX/FuzColors.dart';
 import 'package:fondue_timer/pages/TimerViewPage.dart';
 
@@ -27,11 +28,7 @@ class BaseApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
-        textTheme: TextTheme(
-          bodyText1: TextStyle(color: Colors.white),
-          bodyText2: TextStyle(color: Colors.white),
-          headline3: TextStyle(color: Colors.white, fontSize: 40, )
-        ),
+        textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white), bodyText2: TextStyle(color: Colors.white), headline3: TextStyle(color: Colors.white, fontSize: 40)),
         textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.white), textStyle: MaterialStateProperty.all(TextStyle(color: Colors.white)))),
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -40,5 +37,7 @@ class BaseApp extends StatelessWidget {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FuzSingleton().loadPresets();
   runApp(BaseApp());
 }

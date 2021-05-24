@@ -14,8 +14,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_speed_dial: ^3.0.5
   google_fonts: ^2.0.0
+  audioplayers: ^0.19.0
+  shared_preferences: ^2.0.5
+  json_annotation: ^4.0.1
 
 dev_dependencies:
+  build_runner: ^2.0.3
+  json_serializable: ^4.1.2
   flutter_test:
     sdk: flutter
 
