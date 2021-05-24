@@ -7,6 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 class TimerBlock extends StatefulWidget {
   final TimerData data;
   final Function() deleteThis;
+
+  
+
   @override
   _TimerBlockState createState() => _TimerBlockState();
 
@@ -44,6 +47,7 @@ class _TimerBlockState extends State<TimerBlock> {
                   child: Material(
                     color: widget.data.color,
                     child: InkWell(
+
                       onTap: () {
                         if (widget.data.time.remainingTime < Duration.zero) {
                           widget.data.time.reset();
