@@ -23,7 +23,10 @@ class _LoadPresetDialogState extends State<LoadPresetDialog> {
     List<PresetDisplay> presetViews = [];
 
     for (int i = 0; i < FuzSingleton().presets.length; i++) {
-      presetViews.add(PresetDisplay(FuzSingleton().presets[i], onTap: () => Navigator.pop(context, FuzSingleton().presets[i]),));
+      presetViews.add(PresetDisplay(
+        FuzSingleton().presets[i],
+        onTap: () => Navigator.pop(context, FuzSingleton().presets[i]),
+      ));
     }
     return SimpleDialog(
       backgroundColor: Colors.black,

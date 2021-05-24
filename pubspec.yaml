@@ -14,10 +14,20 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_speed_dial: ^3.0.5
   google_fonts: ^2.0.0
+  shared_preferences: ^2.0.5
+  json_annotation: ^4.0.1
+  # flutter_sound: ^8.1.4
+  audioplayers: ^0.19.0
 
 dev_dependencies:
+  build_runner: ^2.0.3
+  json_serializable: ^4.1.2
   flutter_test:
     sdk: flutter
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/Loud_Alarm_Clock_Buzzer-Muk1984-493547174.mp3
+    - assets/messenger.mp3
