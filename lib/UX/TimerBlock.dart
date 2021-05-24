@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 class TimerBlock extends StatefulWidget {
   final TimerData data;
   final Function() deleteThis;
+
   @override
   _TimerBlockState createState() => _TimerBlockState();
 
@@ -54,19 +55,24 @@ class _TimerBlockState extends State<TimerBlock> {
                         }
                         setState(() {});
                       },
-                      onDoubleTap: () => showDialog(context: context, builder: (context) => TimerOptionDialog(widget.data)).then((value) {
-                        if (value != null) {
-                          if (value == "DELETE") {
-                            widget.deleteThis();
-                          } else if (value.runtimeType == TimerData) {
-                            widget.data.color = value.color;
-                            widget.data.time = value.time;
-                            widget.data.name = value.name;
-                            setState(() {});
-                          }
+                      onLongPress: () {
+                        if (widget.data.time.elapsedTime == Duration.zero) {
+                          showDialog(context: context, builder: (context) => TimerOptionDialog(widget.data)).then((value) {
+                            if (value != null) {
+                              if (value == "DELETE") {
+                                widget.deleteThis();
+                              } else if (value.runtimeType == TimerData) {
+                                widget.data.color = value.color;
+                                widget.data.time = value.time;
+                                widget.data.name = value.name;
+                                setState(() {});
+                              }
+                            }
+                          });
+                        } else {
+                          setState(() => widget.data.time.reset());
                         }
-                      }),
-                      onLongPress: () => setState(() => widget.data.time.reset()),
+                      },
                       child: FittedBox(
                         alignment: Alignment.centerLeft,
                         fit: BoxFit.fitWidth,

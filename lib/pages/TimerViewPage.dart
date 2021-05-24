@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fondue_timer/UX/CreateTimerDialog.dart';
@@ -7,6 +9,7 @@ import 'package:fondue_timer/UX/ViewPresetsDialog.dart';
 import 'package:fondue_timer/data/PresetData.dart';
 import 'package:fondue_timer/data/TimerData.dart';
 import 'package:fondue_timer/data/ClkTimer.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class TimerViewPage extends StatefulWidget {
   @override
@@ -15,11 +18,30 @@ class TimerViewPage extends StatefulWidget {
 
 class _TimerViewPageState extends State<TimerViewPage> {
   late List<TimerData> dataList;
+  late AudioCache audioCache;
+  late AudioPlayer audioPlayer;
+  late Timer soundChkTimer;
 
   @override
   void initState() {
     super.initState();
     dataList = [];
+
+    audioPlayer = AudioPlayer();
+    audioCache = AudioCache();
+
+    soundChkTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      bool keepPlaying = false;
+      for (var timerData in dataList) {
+        if (timerData.time.remainingTime < Duration.zero) {
+          keepPlaying = true;
+          break;
+        }
+      }
+      if (keepPlaying) {
+        audioCache.play('messenger.mp3', isNotification: true);
+      }
+    });
   }
 
   @override

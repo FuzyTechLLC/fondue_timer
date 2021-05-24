@@ -17,10 +17,32 @@ class _ViewPresetsDialogState extends State<ViewPresetsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    List<PresetDisplay> presetViews = [];
+    List<Widget> presetViews = [];
 
     for (int i = 0; i < FuzSingleton().presets.length; i++) {
-      presetViews.add(PresetDisplay(FuzSingleton().presets[i]));
+      presetViews.add(InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Column(children: [Text("Delete this preset?"), PresetDisplay(FuzSingleton().presets[i])]),
+                backgroundColor: Colors.black,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4), side: BorderSide(color: Colors.white, width: 3)),
+                actions: [
+                  TextButton(onPressed: () => Navigator.pop(context), child: Text("No")),
+                  TextButton(
+                      onPressed: () {
+                        FuzSingleton().presets.removeAt(i);
+                        FuzSingleton().savePresets();
+                        Navigator.pop(context);
+                      },
+                      child: Text("Yes")),
+                ],
+              ),
+            );
+          },
+          child: PresetDisplay(FuzSingleton().presets[i])));
     }
     return SimpleDialog(
       backgroundColor: Colors.black,
