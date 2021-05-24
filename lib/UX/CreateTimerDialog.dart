@@ -7,7 +7,7 @@ import 'package:fondue_timer/data/TimerData.dart';
 class CreateTimerDialog extends StatefulWidget {
   final String title;
 
-  const CreateTimerDialog({Key? key, this.title="New Timer"}) : super(key: key);
+  const CreateTimerDialog({Key? key, this.title = "New Timer"}) : super(key: key);
 
   @override
   _CreateTimerDialogState createState() => _CreateTimerDialogState();
@@ -26,6 +26,14 @@ class _CreateTimerDialogState extends State<CreateTimerDialog> {
     secondController = TextEditingController();
     minuteController = TextEditingController();
     nameController = TextEditingController();
+  }
+
+  int _parseIntOrZero(String val) {
+    try {
+      return int.parse(val);
+    } catch (e) {
+      return 0;
+    }
   }
 
   @override
@@ -93,7 +101,7 @@ class _CreateTimerDialogState extends State<CreateTimerDialog> {
                 try {
                   Navigator.pop(
                     context,
-                    TimerData(name: nameController.text, color: chosenColor, time: ClkTimer(duration: Duration(minutes: int.parse(minuteController.text), seconds: int.parse(secondController.text)))),
+                    TimerData(name: nameController.text, color: chosenColor, time: ClkTimer(duration: Duration(minutes: _parseIntOrZero(minuteController.text), seconds: _parseIntOrZero(secondController.text)))),
                   );
                 } catch (_) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
