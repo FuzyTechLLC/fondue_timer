@@ -28,6 +28,8 @@ class _TimerViewPageState extends State<TimerViewPage> {
     dataList = [];
 
     audioPlayer = AudioPlayer();
+    audioCache = AudioCache();
+
     soundChkTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       bool keepPlaying = false;
       for (var timerData in dataList) {
@@ -36,8 +38,9 @@ class _TimerViewPageState extends State<TimerViewPage> {
           break;
         }
       }
-      print("keepPlaying: $keepPlaying");
-      // TODO: play sound
+      if (keepPlaying) {
+        audioCache.play('messenger.mp3', isNotification: true);
+      }
     });
   }
 
